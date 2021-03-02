@@ -12,8 +12,7 @@
     <artifactId>Order</artifactId>
     <packaging>jar</packaging>
 
-    <name>Order Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
+    <name>Order</name>
     <url>http://www.example.com</url>
 
     <properties>

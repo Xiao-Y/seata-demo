@@ -12,8 +12,7 @@
     <artifactId>Account</artifactId>
     <packaging>jar</packaging>
 
-    <name>com.xiaoy.account.AccountApp Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
+    <name>Account</name>
     <url>http://www.example.com</url>
 
     <properties>
@@ -42,6 +41,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 对应 seata 的版本 -->
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-spring-boot-starter</artifactId>

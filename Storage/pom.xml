@@ -12,8 +12,7 @@
     <artifactId>Storage</artifactId>
     <packaging>jar</packaging>
 
-    <name>Storage Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
+    <name>Storage</name>
     <url>http://www.example.com</url>
 
     <properties>

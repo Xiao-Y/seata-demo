@@ -12,8 +12,7 @@
     <artifactId>Business</artifactId>
     <packaging>jar</packaging>
 
-    <name>com.xiaoy.Business.BusinessApp Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
+    <name>Business</name>
     <url>http://www.example.com</url>
 
     <properties>
