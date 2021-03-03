@@ -1,14 +1,9 @@
+@[TOC](目录)
 # 一、Seata 简介
-
 查看源码  https://github.com/Xiao-Y/seata-demo
-
 [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo)
-
 ## 1. Seata 如何处理呢
-
-![image-seata处理流程](temp\img\seata处理流程.jpg)
-
-
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021030221413289.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
 Business 是业务入口，在程序中会通过**注解**来说明他是一个**全局事务**，这时他的角色为 TM（事务管理者）。
 
@@ -43,8 +38,7 @@ TC 收到请求后，向 XID 下的所有分支事务发起相应请求。
 - 资源管理者 RM：管理执行分支事务的那些资源，向TC注册分支事务、上报分支事务状态、控制分支事务的提交或者回滚。
 
 ## 3. 具体工作过程
-
-![image-具体过程](temp\img\具体过程.jpg)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210302214416801.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
 - TM 请求 TC，开始一个新的全局事务，TC 会为这个全局事务生成一个 XID。
 - XID 通过微服务的调用链传递到其他微服务。
@@ -53,39 +47,47 @@ TC 收到请求后，向 XID 下的所有分支事务发起相应请求。
 - TC 指挥这个 XID 下面的所有分支事务进行提交、回滚。
 
 # 二、Seata 详细工作流程示例
-
-![image-architecture](temp\img\architecture.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210302214206435.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
 
 # 三、启动 seata 服务端
-
+seata 在读取配置文件时有多种方式，这里采用 nacos 的方式，生产上优先使用这种方式。
 ## 1. 下载seatea 服务端
+我的源码工程中已经存在，在 temp 文件夹中
 
-![image-20210302094940682](temp/img/image-20210302094940682.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210302214439773.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
 ## 2.修改 `config.txt` 文件，根据需要保存。修改数据库相关
 
-`config.txt` 文件在源码中需要下载 Source code(zip) 解压后 `seata-1.4.1\script\config-center`。
+`config.txt` 文件在源码中需要下载 Source code(zip) （我的源码工程中已经存在，在 temp 文件夹中）解压后 `seata-1.4.1\script\config-center`。
 
 执行 `seata-1.4.1\script\config-center\nacos\nacos-config.sh` 将配置文件导入到 nacos 中
 
-`nacos-config.sh -h localhost -p 8848 -g SEATA_GROUP -t 0af6e97b-a684-4647-b696-7c6d42aecce7 -u nacos -w nacos`
+`nacos-config.sh -h <ip> -p <port> -g SEATA_GROUP -t <namespace> -u <username> -w <password>`
 
-例如 `nacos-config.sh -h 119.23.27.78 -p 8761 -g SEATA_GROUP -u nacos -w nacos`
+例如：
+
+不带命名空间的 
+
+`nacos-config.sh -h 127.0.0.1 -p 8761 -g SEATA_GROUP -u nacos -w nacos`
+
+带命名空间的，新建命名空间 seata-dev 
+
+`nacos-config.sh -h 127.0.0.1 -p 8761 -g SEATA_GROUP -u nacos -w nacos -t seata-dev`
+
 
 ```properties
-service.vgroupMapping.my_test_tx_group=default
-service.default.grouplist=127.0.0.1:8091
+service.vgroupMapping.my_test_tx_group=seata-server-cluster
+service.seata-server-cluster.grouplist=127.0.0.1:8091,127.0.0.1:8092
 store.mode=db
 store.db.datasource=druid
 store.db.dbType=mysql
 store.db.driverClassName=com.mysql.cj.jdbc.Driver
-store.db.url=jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai
+store.db.url=jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true%26characterEncoding=utf8%26useSSL=false%26autoReconnect=true%26serverTimezone=Asia/Shanghai
 store.db.user=root
 store.db.password=root
 ```
-
-![image-20210302094940682](temp\img\nacos配置.png)
+![](https://img-blog.csdnimg.cn/20210303091624874.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70)
 
 ## 3.修改 `registry.conf` 文件，修改 nacos 的地址、用户名和密码。
 
@@ -102,8 +104,8 @@ registry {
     application = "seata-server"
     serverAddr = "119.23.27.78:8761"
     group = "SEATA_GROUP"
-    namespace = ""
-    cluster = "default"
+    namespace = "seata-dev"
+    cluster = "seata-server-cluster"
     username = "nacos"
     password = "nacos"
   }
@@ -115,7 +117,7 @@ config {
   type = "nacos"
   nacos {
     serverAddr = "119.23.27.78:8761"
-    namespace = ""
+    namespace = "seata-dev"
     group = "SEATA_GROUP"
     username = "nacos"
     password = "nacos"
@@ -125,9 +127,11 @@ config {
 ```
 
 ## 3. 启动 seata-server.bat
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210302214501262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
-![image-20210302102427688](temp/img/image-20210302102427688.png)
+`seata-server.bat -p 8091`
 
+`seata-server.bat -p 8092`
 # 四、调用端
 
 ## 1. 新建测试库 seata、account、order、storage
@@ -232,8 +236,7 @@ CREATE TABLE `undo_log` (
 ```
 
 ## 2. 新建工程
-
-![image-20210302111457693](temp/img/image-20210302111457693.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210302214240170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
 Account、Order、Storage中的pom.xml中添加
 
@@ -270,8 +273,11 @@ seata:
   config:
     type: nacos
     nacos:
+      # 与上面的命名空间相同
+      namespace: seata-dev
       username: nacos
       password: nacos
+      # nacos 的ip和端口
       server-addr: ${nacos-server-addr}
       # 读取的配置分组
       group: SEATA_GROUP
@@ -281,12 +287,19 @@ seata:
     nacos:
       # SEATA服务中心的微服务名，此处与服务端保持一致
       application: seata-server
+      # 与上面的命名空间相同
+      namespace: seata-dev
+      # nacos 的ip和端口
       server-addr: ${nacos-server-addr}
       username: nacos
       password: nacos
 ```
 
-查看源码  https://github.com/Xiao-Y/seata-demo
+# 3. 测试
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210303094150414.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210303094417224.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70)
 
+
+查看源码  https://github.com/Xiao-Y/seata-demo
 [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo)
 

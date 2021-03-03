@@ -50,8 +50,11 @@ seata:
   config:
     type: nacos
     nacos:
+      # 与上面的命名空间相同
+      namespace: seata-dev
       username: nacos
       password: nacos
+      # nacos 的ip和端口
       server-addr: ${nacos-server-addr}
       # 读取的配置分组
       group: SEATA_GROUP
@@ -61,6 +64,9 @@ seata:
     nacos:
       # SEATA服务中心的微服务名，此处与服务端保持一致
       application: seata-server
+      # 与上面的命名空间相同
+      namespace: seata-dev
+      # nacos 的ip和端口
       server-addr: ${nacos-server-addr}
       username: nacos
       password: nacos
