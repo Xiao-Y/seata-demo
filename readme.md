@@ -1,4 +1,23 @@
 @[TOC](目录)
+
+**工程使用的技术及版本**
+
+**spring cloud**		Hoxton.SR8
+
+**spring cloud alibaba**	2.2.1.RELEASE
+
+**spring boot**	2.3.4.RELEASE
+
+**open feign**
+
+**mysql** 8
+
+**nacos** 1.4.0
+
+**seata** 1.4.1
+
+**mybatis plus** 3.2.0
+
 # 一、Seata 简介
 查看源码  https://github.com/Xiao-Y/seata-demo
 [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo) [查看源码](https://github.com/Xiao-Y/seata-demo)
