@@ -11,4 +11,5 @@ public interface AccountService extends IService<Account> {
 
     boolean subAccount(String userId, Integer money);
 
+    boolean addAccount(String userId, Integer money);
 }

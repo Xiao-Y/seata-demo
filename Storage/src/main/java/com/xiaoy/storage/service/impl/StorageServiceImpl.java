@@ -2,12 +2,10 @@ package com.xiaoy.storage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoy.storage.dao.StorageDao;
 import com.xiaoy.storage.dto.Storage;
 import com.xiaoy.storage.service.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +17,6 @@ import java.util.List;
  */
 @Service
 public class StorageServiceImpl extends ServiceImpl<StorageDao, Storage> implements StorageService {
-
-    @Autowired
-    private StorageDao storageDao;
-
 
     @Override
     @Transactional

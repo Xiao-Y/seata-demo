@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoy.account.dao.AccountDao;
 import com.xiaoy.account.dto.Account;
 import com.xiaoy.account.service.AccountService;
+import io.seata.spring.annotation.GlobalLock;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountDao, Account> impleme
             throw new RuntimeException("余额不足！！");
         }
         account.setMoney(m);
+        this.updateById(account);
+        return true;
+    }
+
+    @Override
+    @GlobalLock
+    @Transactional
+    public boolean addAccount(String userId, Integer money) {
+        LambdaQueryWrapper<Account> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(Account::getUserId, userId);
+        List<Account> accounts = accountDao.selectList(wrapper);
+        Account account = accounts.get(0);
+        account.setMoney(account.getMoney() + money);
         this.updateById(account);
         return true;
     }

@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "Account-Service")
 public interface AccountFeign {
 
-    @PostMapping("/account/{userId}")
+    @PostMapping("/account/subAccount/{userId}")
     boolean subAccount(@PathVariable("userId") String userId, @RequestParam("money") Integer money);
 }

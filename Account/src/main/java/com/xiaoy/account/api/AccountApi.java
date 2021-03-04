@@ -25,9 +25,14 @@ public class AccountApi {
 //        return new Account();
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/subAccount/{userId}")
     public boolean subAccount(@PathVariable("userId") String userId, @RequestParam("money") Integer money) {
         return accountService.subAccount(userId, money);
     }
 
+    @PostMapping("/addAccount/{userId}")
+    public boolean addAccount(@PathVariable("userId") String userId, @RequestParam("money") Integer money) {
+        accountService.addAccount(userId, money);
+        return true;
+    }
 }

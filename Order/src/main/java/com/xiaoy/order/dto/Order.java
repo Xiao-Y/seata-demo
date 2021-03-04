@@ -13,7 +13,6 @@ import java.io.Serializable;
  * @since 2021-3-2 11:31
  */
 @Data
-
 @Accessors(chain = true)
 @TableName("order_tbl")
 public class Order implements Serializable {
