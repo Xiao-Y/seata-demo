@@ -14,7 +14,7 @@
 
 **nacos** 1.4.0
 
-**seata** 1.4.1
+**seata** 1.3.0
 
 **mybatis plus** 3.2.0
 
@@ -78,9 +78,9 @@ seata 在读取配置文件时有多种方式，这里采用 nacos 的方式，�
 
 ## 2.修改 `config.txt` 文件，根据需要保存。修改数据库相关
 
-`config.txt` 文件在源码中需要下载 Source code(zip) （我的源码工程中已经存在，在 temp 文件夹中）解压后 `seata-1.4.1\script\config-center`。
+`config.txt` 文件在源码中需要下载 Source code(zip) （我的源码工程中已经存在，在 temp 文件夹中）解压后 `seata-1.3.0\script\config-center`。
 
-执行 `seata-1.4.1\script\config-center\nacos\nacos-config.sh` 将配置文件导入到 nacos 中
+执行 `seata-1.3.0\script\config-center\nacos\nacos-config.sh` 将配置文件导入到 nacos 中
 
 `nacos-config.sh -h <ip> -p <port> -g SEATA_GROUP -t <namespace> -u <username> -w <password>`
 
@@ -257,24 +257,91 @@ CREATE TABLE `undo_log` (
 ## 2. 新建工程
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210302214240170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5b25nMTIyMw==,size_16,color_FFFFFF,t_70#pic_center)
 
+seata-demo 中的 pom.xml 中添加
+```xml
+<properties>
+    <java.version>1.8</java.version>
+    <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+    <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
+    <seata-spring-boot-starter.version>1.3.0</seata-spring-boot-starter.version>
+</properties>
+
+<dependencies>
+    <!-- 注册中心 -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <!--配置命名容错处理-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-configuration-processor</artifactId>
+        <optional>true</optional>
+    </dependency>
+    <!-- spring boot 测试用 -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <!-- Mybatis依赖 -->
+    <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-boot-starter</artifactId>
+        <version>3.2.0</version>
+    </dependency>
+</dependencies>
+
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <version>${spring-cloud-alibaba.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <!-- Spring Cloud Seata -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- 版本太低 -->
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>${spring-cloud-alibaba.version}</version>
+        </dependency>
+        <!-- 对应 seata 的版本 -->
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-spring-boot-starter</artifactId>
+            <version>${seata-spring-boot-starter.version}</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
 Account、Order、Storage中的pom.xml中添加
 
 ```xml
 <dependency>
     <groupId>com.alibaba.cloud</groupId>
     <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-    <exclusions>
-        <exclusion>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </exclusion>
-    </exclusions>
 </dependency>
 <!-- 对应 seata 的版本 -->
 <dependency>
     <groupId>io.seata</groupId>
     <artifactId>seata-spring-boot-starter</artifactId>
-    <version>1.4.1</version>
 </dependency>
 ```
 

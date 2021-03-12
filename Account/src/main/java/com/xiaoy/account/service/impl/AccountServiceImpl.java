@@ -30,6 +30,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountDao, Account> impleme
         LambdaQueryWrapper<Account> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(Account::getUserId, userId);
         List<Account> accounts = accountDao.selectList(wrapper);
+
+//        for (Account account : accounts) {
+//            Integer m = account.getMoney() - money;
+//            account.setMoney(m);
+//            this.updateById(account);
+//        }
+
         Account account = accounts.get(0);
         Integer m = account.getMoney() - money;
         if (m < 0) {
@@ -41,8 +48,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountDao, Account> impleme
     }
 
     @Override
-    @GlobalLock
-    @Transactional
+    @GlobalTransactional
     public boolean addAccount(String userId, Integer money) {
         LambdaQueryWrapper<Account> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(Account::getUserId, userId);
