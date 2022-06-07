@@ -25,7 +25,9 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
-        <seata-spring-boot-starter.version>1.3.0</seata-spring-boot-starter.version>
+        <seata-spring-boot-starter.version>1.5.1</seata-spring-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.4.1</mybatis-plus-boot-starter.version>
+        <nacos-client.version>2.0.1</nacos-client.version>
     </properties>
 
     <dependencies>
@@ -33,6 +35,17 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>nacos-client</artifactId>
+                    <groupId>com.alibaba.nacos</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>${nacos-client.version}</version>
         </dependency>
         <!--配置命名容错处理-->
         <dependency>
@@ -50,7 +63,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.2.0</version>
+            <version>${mybatis-plus-boot-starter.version}</version>
         </dependency>
     </dependencies>
 

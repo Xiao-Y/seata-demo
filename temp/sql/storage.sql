@@ -14,6 +14,8 @@
  Date: 02/03/2021 20:30:33
 */
 
+CREATE DATABASE storage;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

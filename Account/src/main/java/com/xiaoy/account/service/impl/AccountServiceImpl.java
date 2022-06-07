@@ -25,7 +25,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountDao, Account> impleme
     private AccountDao accountDao;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean subAccount(String userId, Integer money) {
         LambdaQueryWrapper<Account> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(Account::getUserId, userId);
@@ -48,7 +48,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountDao, Account> impleme
     }
 
     @Override
-    @GlobalTransactional
+    @GlobalTransactional(timeoutMills = 10000)
     public boolean addAccount(String userId, Integer money) {
         LambdaQueryWrapper<Account> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(Account::getUserId, userId);

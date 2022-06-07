@@ -14,6 +14,8 @@
  Date: 02/03/2021 20:29:53
 */
 
+CREATE DATABASE account;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

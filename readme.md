@@ -12,11 +12,11 @@
 
 **mysql** 8
 
-**nacos** 1.4.0
+**nacos** 2.0.3
 
-**seata** 1.3.0
+**seata** 1.5.1
 
-**mybatis plus** 3.2.0
+**mybatis plus** 3.4.1
 
 # 一、Seata 简介
 查看源码  https://github.com/Xiao-Y/seata-demo
@@ -88,11 +88,11 @@ seata 在读取配置文件时有多种方式，这里采用 nacos 的方式，�
 
 不带命名空间的 
 
-`nacos-config.sh -h 127.0.0.1 -p 8761 -g SEATA_GROUP -u nacos -w nacos`
+`nacos-config.sh -h 127.0.0.1 -p 8848 -g SEATA_GROUP -u nacos -w nacos`
 
 带命名空间的，新建命名空间 seata-dev 
 
-`nacos-config.sh -h 127.0.0.1 -p 8761 -g SEATA_GROUP -u nacos -w nacos -t seata-dev`
+`nacos-config.sh -h 127.0.0.1 -p 8848 -g SEATA_GROUP -u nacos -w nacos -t seata-dev`
 
 
 ```properties
@@ -102,7 +102,7 @@ store.mode=db
 store.db.datasource=druid
 store.db.dbType=mysql
 store.db.driverClassName=com.mysql.cj.jdbc.Driver
-store.db.url=jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true%26characterEncoding=utf8%26useSSL=false%26autoReconnect=true%26serverTimezone=Asia/Shanghai
+store.db.url=jdbc:mysql://127.0.0.1:36005/seata?useUnicode=true%26characterEncoding=utf8%26useSSL=false%26autoReconnect=true%26serverTimezone=Asia/Shanghai
 store.db.user=root
 store.db.password=root
 ```
@@ -121,7 +121,7 @@ registry {
   loadBalanceVirtualNodes = 10
   nacos {
     application = "seata-server"
-    serverAddr = "119.23.27.78:8761"
+    serverAddr = "127.0.0.1:8848"
     group = "SEATA_GROUP"
     namespace = "seata-dev"
     cluster = "seata-server-cluster"
@@ -135,7 +135,7 @@ config {
   # file、nacos 、apollo、zk、consul、etcd3
   type = "nacos"
   nacos {
-    serverAddr = "119.23.27.78:8761"
+    serverAddr = "127.0.0.1:8848"
     namespace = "seata-dev"
     group = "SEATA_GROUP"
     username = "nacos"
@@ -263,7 +263,8 @@ seata-demo 中的 pom.xml 中添加
     <java.version>1.8</java.version>
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
-    <seata-spring-boot-starter.version>1.3.0</seata-spring-boot-starter.version>
+    <seata-spring-boot-starter.version>1.5.1</seata-spring-boot-starter.version>
+    <mybatis-plus-boot-starter.version>3.4.1</mybatis-plus-boot-starter.version>
 </properties>
 
 <dependencies>
@@ -288,7 +289,7 @@ seata-demo 中的 pom.xml 中添加
     <dependency>
         <groupId>com.baomidou</groupId>
         <artifactId>mybatis-plus-boot-starter</artifactId>
-        <version>3.2.0</version>
+        <version>${mybatis-plus-boot-starter.version}</version>
     </dependency>
 </dependencies>
 

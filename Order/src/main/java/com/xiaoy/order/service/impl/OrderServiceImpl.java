@@ -22,7 +22,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     private AccountFeign accountFeign;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean insertOrder(Order order) {
         orderDao.insert(order);
         accountFeign.subAccount(order.getUserId(), order.getMoney());
